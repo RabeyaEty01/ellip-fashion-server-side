@@ -25,6 +25,7 @@ async function run() {
         console.log('connected to the database');
         const database = client.db("EllipFashion");
         const productsCollection = database.collection("products");
+        const reviewCollection = database.collection("reviews");
        
         
         //GET ALL Products
@@ -39,6 +40,15 @@ async function run() {
             const product = req.body;
             console.log('hit the api', product);
             const result = await productsCollection.insertOne(product);
+            console.log(result);
+            res.json(result);
+        });
+
+        //POST Review API
+        app.post('/addReview', async (req, res) => {
+            const review = req.body;
+            console.log('hit the api', review);
+            const result = await reviewCollection.insertOne(review);
             console.log(result);
             res.json(result);
         });
