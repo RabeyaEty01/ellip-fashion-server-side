@@ -192,7 +192,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Travio Tour Guide Server is Running');
+    res.send('Ellip Fashion Cosmetics Server is Running');
 });
 
 app.listen(port, () => {
