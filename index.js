@@ -73,8 +73,8 @@ async function run() {
             res.send(result);
         });
 
-           //GET admin
-           app.get('/users/:email', async (req, res) => {
+        //GET admin
+        app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
             const user = await usersCollection.findOne(query);
@@ -107,7 +107,7 @@ async function run() {
 
 
 
-
+        //POST Users
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
@@ -125,38 +125,47 @@ async function run() {
         });
 
 
-         //PUT Admin role and verify admin
-         app.put('/users/admin', async (req, res) => {
+        //PUT Admin role and verify admin
+        app.put('/users/admin', async (req, res) => {
             const user = req.body;
             // const requester = req.email;
             console.log(user);
-           
-              
-               
-                    const filter = { email: user.email };
-                    const updateDoc = {
-                        $set:
-                            { role: 'admin' }
-                    };
-                    const result = await usersCollection.updateOne(filter, updateDoc);
-                    res.json(result);
+            const filter = { email: user.email };
+            const updateDoc = {
+                $set:
+                    { role: 'admin' }
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.json(result);
 
-                
-            
-           
+        });
+
+        //UPDATE Status
+        app.put('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            // const updatedStatus = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updateDoc = {
+
+                $set: {
+                    status: "Shipped"
+                },
+            };
+            const result = await ordersCollection.updateOne(filter, updateDoc)
+            //console.log('updating user', id);
+            res.json(result);
+
+        })
 
 
-
-         });
-
-           //DELETE Order
-           app.delete('/orders/:id', async (req, res) => {
+        //DELETE Order
+        app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await ordersCollection.deleteOne(query);
             console.log(result);
 
-             console.log('deleteing user with id', id);
+            console.log('deleteing user with id', id);
 
             res.json(result);
         });
